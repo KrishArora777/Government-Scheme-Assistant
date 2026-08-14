@@ -53,7 +53,7 @@ def build_rag_chain() -> dict:
         "retriever": the document retriever (needed to also fetch sources),
       }
     """
-    llm = OllamaLLM(model="llama3.2:latest", temperature=0.1)
+    llm = OllamaLLM(model="llama3.2:latest", temperature=0.8)
     retriever = get_retriever(k=4)
 
     # LCEL chain: question → retrieve → format → prompt → LLM → parse
