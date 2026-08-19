@@ -657,6 +657,13 @@ with st.sidebar:
     #     sign_out()
     #     st.rerun()
 
+# ---------------------------------------------------
+# GLOBAL RESOURCES
+# ---------------------------------------------------
+@st.cache_resource(show_spinner=False)
+def get_rag_chain():
+    return build_rag_chain()
+
 page = st.session_state.page
 
 # ---------------------------------------------------
@@ -687,11 +694,6 @@ if page == "🏠 Home":
 # AI CHAT PAGE
 # ---------------------------------------------------
 elif page == "🤖 AI Chat":
-
-    # ── Load RAG chain once, cache for all reruns ──
-    @st.cache_resource(show_spinner=False)
-    def get_rag_chain():
-        return build_rag_chain()
 
     # Build / load the chain with a friendly spinner
     with st.spinner("🔄 Loading knowledge base... (first run may take a minute)"):
@@ -797,11 +799,17 @@ elif page == "✅ Eligibility Checker":
         submitted = st.form_submit_button("Check Eligibility")
 
     if submitted:
-        # --- Placeholder logic — replace with real rule engine or RAG-based eligibility check ---
-        st.success("Based on your details, you may be eligible for:")
-        st.markdown("- **PM-KISAN** (if you own agricultural land)")
-        st.markdown("- **PM Jan Dhan Yojana** (open to all citizens)")
-        st.info("This is placeholder logic — connect it to your eligibility rules or LLM-based checker.")
+        with st.spinner("Analyzing eligibility using AI..."):
+            rag_chain = get_rag_chain()
+            prompt = f"Based on the following profile: Age {age}, State {state}, Occupation {occupation}, Annual Income ₹{income}, which government schemes are they eligible for and what are the specific criteria?"
+            result = ask(prompt, chain=rag_chain)
+            
+        st.success("Eligibility Evaluation Complete:")
+        st.markdown(result["answer"])
+        if result.get("sources"):
+            with st.expander("📄 Sources"):
+                for src in result["sources"]:
+                    st.write(f"• {src}")
 
 # ---------------------------------------------------
 # DOCUMENT CHECKLIST PAGE
