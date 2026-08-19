@@ -619,7 +619,6 @@ nav_items = [
     "⭐ Saved Schemes",
     "⚙️ Settings",
 ]
-
 with st.sidebar:
     st.markdown('<div class="sidebar-header">🏛️ GovAssist AI</div>', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-subtext">Your Government Scheme Assistant</div>', unsafe_allow_html=True)
