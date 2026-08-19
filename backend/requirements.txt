@@ -1,2 +1,8 @@
 supabase
 streamlit
+langchain-ollama
+langchain-core
+langchain-text-splitters
+langchain-chroma
+langchain-community
+pypdf
