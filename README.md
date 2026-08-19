@@ -45,7 +45,3 @@ LLM
         ↓
 Answer
 
-## Project Status
-
-🚧 Currently under development as part of a 45-day
-Agentic AI training project.
